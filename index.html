@@ -65,6 +65,9 @@
     <option value="mexico">Mexico</option>
   </select>
 
+  <label for="deficitRatio">Deficit Ratio</label>
+  <input type="number" step="0.001" id="deficitRatio" placeholder="e.g. 0.904" />
+
   <label for="marketAccessGap">Market Access Gap</label>
   <input type="number" step="0.001" id="marketAccessGap" placeholder="e.g. 0.083" />
 
@@ -92,12 +95,13 @@
     function populateFields() {
       const country = document.getElementById('country').value;
       const data = {
-        vietnam: { marketAccessGap: 0.083, ppiGap: 0.546, existingTariff: 9.4 },
-        india: { marketAccessGap: 0.071, ppiGap: 0.620, existingTariff: 17.0 },
-        mexico: { marketAccessGap: 0.090, ppiGap: 0.430, existingTariff: 7.0 }
+        vietnam: { deficitRatio: 0.904, marketAccessGap: 0.083, ppiGap: 0.546, existingTariff: 9.4 },
+        india: { deficitRatio: 0.875, marketAccessGap: 0.071, ppiGap: 0.620, existingTariff: 17.0 },
+        mexico: { deficitRatio: 0.820, marketAccessGap: 0.090, ppiGap: 0.430, existingTariff: 7.0 }
       };
 
       if (data[country]) {
+        document.getElementById('deficitRatio').value = data[country].deficitRatio;
         document.getElementById('marketAccessGap').value = data[country].marketAccessGap;
         document.getElementById('ppiGap').value = data[country].ppiGap;
         document.getElementById('existingTariff').value = data[country].existingTariff;
@@ -105,6 +109,7 @@
     }
 
     function calculateTariff() {
+      const deficitRatio = parseFloat(document.getElementById('deficitRatio').value);
       const marketAccessGap = parseFloat(document.getElementById('marketAccessGap').value);
       const ppiGap = parseFloat(document.getElementById('ppiGap').value);
       const existingTariff = parseFloat(document.getElementById('existingTariff').value);
@@ -113,9 +118,6 @@
       const alpha = 0.4;
       const beta = 0.3;
       const gamma = 0.3;
-
-      // Example base values for Vietnam
-      const deficitRatio = 0.904;
 
       if ([deficitRatio, marketAccessGap, ppiGap, existingTariff, delta].some(isNaN)) {
         document.getElementById('result').textContent = "Please fill out all fields with valid numbers.";
