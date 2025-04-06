@@ -76,11 +76,11 @@
     <option value="vietnam">Vietnam</option>
   </select>
 
-  <label for="rawTariff">Raw Tariff (%)</label>
-  <input type="number" id="rawTariff" />
-
   <label for="countryGDP">Country GDP per Capita (USD)</label>
   <input type="number" id="countryGDP" />
+
+  <label for="ppiGap">PPI Gap (0 - 1)</label>
+  <input type="number" step="0.01" id="ppiGap" placeholder="e.g. 0.546" />
 
   <label for="delta">Delta (δ)</label>
   <input type="number" step="0.01" id="delta" value="0.25" />
@@ -94,37 +94,33 @@
   <div class="note">*U.S. GDP per capita fixed at $65,000 (2024)</div>
 
   <div class="footer">
-    Source: Economic data based on latest IMF & USTR reports (2024). Tariff data adapted from Goldman Sachs and White House calculations.
+    <p><strong>Sources:</strong></p>
+    <ul style="text-align:left; font-size: 11px; padding-left: 20px;">
+      <li>IMF World Economic Outlook Database, 2024</li>
+      <li>USTR and WTO Tariff Schedules</li>
+      <li>Goldman Sachs and White House Trade Projections</li>
+      <li>World Bank Purchasing Power Parity Index, 2024</li>
+    </ul>
   </div>
 
   <div class="how-it-works">
-    How it works: The calculator adjusts tariffs based on GDP per capita, existing tariffs, and an adjustable delta to provide balanced trade assessments. Raw tariff and existing tariff data reflect official White House and WTO statistics.
+    This calculator determines an adjusted tariff rate based on GDP per capita, Purchasing Power Index gap (PPI Gap), and existing tariff offset. It uses a relative development gap against the U.S. and a weighting factor delta (δ) to scale fairness adjustments. No raw tariff input is used; all results are derived from contextual data.
   </div>
 
   <script>
-    // country data initialization (unchanged)
-    const countryData = { cambodia: { rawTariff: 97, gdp: 1700, existingTariff: 7.9 }, /* additional countries */ };
-
-    function populateFields() {
-      const country = document.getElementById('countrySelect').value;
-      if (countryData[country]) {
-        document.getElementById('rawTariff').value = countryData[country].rawTariff;
-        document.getElementById('countryGDP').value = countryData[country].gdp;
-        document.getElementById('existingTariff').value = countryData[country].existingTariff;
-      }
-    }
-
     function calculateTariff() {
-      const rawTariff = parseFloat(document.getElementById('rawTariff').value);
       const countryGDP = parseFloat(document.getElementById('countryGDP').value);
+      const ppiGap = parseFloat(document.getElementById('ppiGap').value);
       const delta = parseFloat(document.getElementById('delta').value);
       const existingTariff = parseFloat(document.getElementById('existingTariff').value);
 
       const usGDP = 65000;
       const devGap = 1 - (countryGDP / usGDP);
-      const adjustedTariff = (rawTariff * (1 - devGap * delta)) - existingTariff;
+      const baseRate = (ppiGap + devGap) / 2;
+      const adjusted = (baseRate * (1 - (devGap * delta))) * 100;
+      const finalTariff = adjusted - existingTariff;
 
-      document.getElementById('result').textContent = `Adjusted Tariff: ${adjustedTariff.toFixed(2)}%`;
+      document.getElementById('result').textContent = `Adjusted Tariff: ${finalTariff.toFixed(2)}%`;
     }
   </script>
 </body>
