@@ -127,7 +127,7 @@
       const devGap = 1 - (ppiGap * delta);
       const rawTariff = (deficitRatio * alpha) + (marketAccessGap * beta) + (ppiGap * gamma);
       const baseTariff = rawTariff * devGap;
-      const adjustedTariff = (baseTariff * 100) - existingTariff;
+      const adjustedTariff = ((rawTariff * devGap) * 100) - existingTariff;
 
       document.getElementById('result').textContent = `Calculated Raw Tariff Output: ${adjustedTariff.toFixed(2)}%`;
 
