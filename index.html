@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<p class="text-center mt-5 mb-8 text-sm text-gray-500">
+          Data sources: World Bank, IMF, US Trade Representative, Bureau of Labor Statistics, and UNCTAD
+        </p><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -429,10 +431,10 @@
             // Economic factors - each weighted according to impact
             const gdpFactor = Math.log10(gdpPerCapita) / 5; // Logarithmic scaling for GDP
             const ppiAdjustment = ppiGap * 8; // PPI gap reflects purchasing power differences
-            const wageAdjustment = (1 - wageIndex) * 12; // Wage disparity adjustment
-            const tradeAdjustment = tradeImbalance * 40; // Trade imbalance factor
+            const wageAdjustment = (1 - wageIndex/100) * 12; // Wage disparity adjustment
+            const tradeAdjustment = tradeImbalance/100 * 40; // Trade imbalance factor
             const deltaEffect = delta * 60; // Market elasticity scaling
-            const deficitImpact = deficitRatio * 25; // Deficit effect on tariff
+            const deficitImpact = deficitRatio/100 * 25; // Deficit effect on tariff
             
             // Calculate fair tariff based on economic fundamentals
             const fairTariff = (
