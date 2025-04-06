@@ -119,20 +119,21 @@
       const beta = 0.3;
       const gamma = 0.3;
 
-      if ([deficitRatio, marketAccessGap, ppiGap, existingTariff, delta].some(isNaN)) {
-        document.getElementById('result').textContent = "Please fill out all fields with valid numbers.";
-        return;
-      }
+  if ([deficitRatio, marketAccessGap, ppiGap, existingTariff, delta].some(isNaN)) {
+    document.getElementById('result').textContent = "Please fill out all fields with valid numbers.";
+    return;
+  }
 
-      const devGap = 1 - (ppiGap * delta);
+  // Correct formula implementation
       const rawTariff = (deficitRatio * alpha) + (marketAccessGap * beta) + (ppiGap * gamma);
-      const baseTariff = rawTariff * devGap;
-      const adjustedTariff = ((rawTariff * devGap) * 100) - existingTariff;
+      const devGapAdjustment = (1 - (ppiGap * delta));
+      const finalTariff = (rawTariff * devGapAdjustment * 100) - existingTariff;
 
-      document.getElementById('result').textContent = `Calculated Raw Tariff Output: ${adjustedTariff.toFixed(2)}%`;
+  document.getElementById('result').textContent = `Calculated Tariff Rate: ${finalTariff.toFixed(2)}%`;
 
-      renderChart(deficitRatio * alpha * 100, marketAccessGap * beta * 100, ppiGap * gamma * 100, existingTariff);
-    }
+  renderChart(deficitRatio * alpha * 100, marketAccessGap * beta * 100, ppiGap * gamma * 100, existingTariff);
+}
+
 
     function renderChart(deficit, market, ppi, offset) {
       const ctx = document.getElementById('tariffChart').getContext('2d');
