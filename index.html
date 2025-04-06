@@ -1,25 +1,131 @@
-function calculateTariff() {
-  const deficitRatio = parseFloat(document.getElementById('deficitRatio').value);
-  const marketAccessGap = parseFloat(document.getElementById('marketAccessGap').value);
-  const ppiGap = parseFloat(document.getElementById('ppiGap').value);
-  const existingTariff = parseFloat(document.getElementById('existingTariff').value);
-  const delta = parseFloat(document.getElementById('delta').value);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tariff Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+    h1 {
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px;
+      width: 100%;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 25px;
+      font-weight: bold;
+      font-size: 18px;
+      text-align: center;
+    }
+    .note {
+      font-size: 12px;
+      color: #555;
+      margin-top: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Tariff Calculator</h1>
 
-  const alpha = 0.4;
-  const beta = 0.3;
-  const gamma = 0.3;
+  <label for="countrySelect">Select Country</label>
+  <select id="countrySelect" onchange="populateFields()">
+    <option value="">--Select a Country--</option>
+    <option value="vietnam">Vietnam</option>
+    <option value="china">China</option>
+    <option value="mexico">Mexico</option>
+    <option value="germany">Germany</option>
+    <option value="japan">Japan</option>
+    <option value="southkorea">South Korea</option>
+    <option value="india">India</option>
+    <option value="italy">Italy</option>
+    <option value="france">France</option>
+    <option value="canada">Canada</option>
+  </select>
 
-  if ([deficitRatio, marketAccessGap, ppiGap, existingTariff, delta].some(isNaN)) {
-    document.getElementById('result').textContent = "Please fill out all fields with valid numbers.";
-    return;
-  }
+  <label for="rawTariff">Raw Tariff (%)</label>
+  <input type="number" id="rawTariff" placeholder="e.g. 46" />
 
-  // Correct formula implementation
-  const rawTariff = (deficitRatio * alpha) + (marketAccessGap * beta) + (ppiGap * gamma);
-  const devGapAdjustment = (1 - (ppiGap * delta));
-  const finalTariff = (rawTariff * devGapAdjustment * 100) - existingTariff;
+  <label for="countryGDP">Country GDP per Capita (USD)</label>
+  <input type="number" id="countryGDP" placeholder="e.g. 4300" />
 
-  document.getElementById('result').textContent = `Calculated Tariff Rate: ${finalTariff.toFixed(2)}%`;
+  <label for="delta">Delta (δ)</label>
+  <input type="number" step="0.01" id="delta" placeholder="e.g. 0.25" value="0.25" />
 
-  renderChart(deficitRatio * alpha * 100, marketAccessGap * beta * 100, ppiGap * gamma * 100, existingTariff);
-}
+  <label for="existingTariff">Existing Tariff Offset (%)</label>
+  <input type="number" id="existingTariff" placeholder="e.g. 9.4" />
+
+  <button onclick="calculateTariff()">Calculate Adjusted Tariff</button>
+
+  <div id="result"></div>
+  <div class="note">*U.S. GDP per capita fixed at $65,000 (2024)</div>
+
+  <script>
+    const countryData = {
+      vietnam: { rawTariff: 46, gdp: 4300, existingTariff: 9.4 },
+      china: { rawTariff: 54, gdp: 12600, existingTariff: 8.0 },
+      mexico: { rawTariff: 25, gdp: 10800, existingTariff: 7.0 },
+      germany: { rawTariff: 20, gdp: 50500, existingTariff: 4.5 },
+      japan: { rawTariff: 18, gdp: 40200, existingTariff: 4.3 },
+      southkorea: { rawTariff: 15, gdp: 31500, existingTariff: 6.5 },
+      india: { rawTariff: 35, gdp: 2100, existingTariff: 17.0 },
+      italy: { rawTariff: 22, gdp: 34200, existingTariff: 4.2 },
+      france: { rawTariff: 19, gdp: 43300, existingTariff: 4.0 },
+      canada: { rawTariff: 12, gdp: 48300, existingTariff: 1.6 }
+    };
+
+    function populateFields() {
+      const country = document.getElementById('countrySelect').value;
+      if (countryData[country]) {
+        document.getElementById('rawTariff').value = countryData[country].rawTariff;
+        document.getElementById('countryGDP').value = countryData[country].gdp;
+        document.getElementById('existingTariff').value = countryData[country].existingTariff;
+      }
+    }
+
+    function calculateTariff() {
+      const rawTariff = parseFloat(document.getElementById('rawTariff').value);
+      const countryGDP = parseFloat(document.getElementById('countryGDP').value);
+      const delta = parseFloat(document.getElementById('delta').value);
+      const existingTariff = parseFloat(document.getElementById('existingTariff').value);
+
+      const usGDP = 65000;
+
+      if (isNaN(rawTariff) || isNaN(countryGDP) || isNaN(delta) || isNaN(existingTariff)) {
+        document.getElementById('result').textContent = "Please fill out all fields with valid numbers.";
+        return;
+      }
+
+      const devGap = 1 - (countryGDP / usGDP);
+      const adjustedTariff = (rawTariff * (1 - devGap * delta)) - existingTariff;
+
+      document.getElementById('result').textContent = `Adjusted Tariff: ${adjustedTariff.toFixed(2)}%`;
+    }
+  </script>
+</body>
+</html>
