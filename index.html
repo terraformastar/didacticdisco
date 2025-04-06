@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tariff Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fundamental Tariff Calculator</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -51,43 +51,45 @@
   </style>
 </head>
 <body>
-  <h1>Tariff Calculator</h1>
+  <h1>Fundamental Tariff Calculator</h1>
 
-  <label for="rawTariff">Raw Tariff (%)</label>
-  <input type="number" id="rawTariff" placeholder="e.g. 46" />
+  <label for="deficitRatio">Deficit Ratio</label>
+  <input type="number" step="0.001" id="deficitRatio" placeholder="e.g. 0.904" />
 
-  <label for="countryGDP">Country GDP per Capita (USD)</label>
-  <input type="number" id="countryGDP" placeholder="e.g. 4300" />
+  <label for="marketAccessGap">Market Access Gap</label>
+  <input type="number" step="0.001" id="marketAccessGap" placeholder="e.g. 0.083" />
 
-  <label for="delta">Delta (δ)</label>
-  <input type="number" step="0.01" id="delta" placeholder="e.g. 0.25" value="0.25" />
+  <label for="ppiGap">PPI Gap</label>
+  <input type="number" step="0.001" id="ppiGap" placeholder="e.g. 0.546" />
 
   <label for="existingTariff">Existing Tariff Offset (%)</label>
-  <input type="number" id="existingTariff" placeholder="e.g. 9.4" />
+  <input type="number" step="0.1" id="existingTariff" placeholder="e.g. 9.4" />
 
-  <button onclick="calculateTariff()">Calculate Adjusted Tariff</button>
+  <button onclick="calculateTariff()">Calculate Tariff Rate</button>
 
   <div id="result"></div>
-  <div class="note">*U.S. GDP per capita fixed at $65,000 (2024)</div>
+  <div class="note">*Using α = 0.4, β = 0.3, γ = 0.3 (2024 model)</div>
 
   <script>
     function calculateTariff() {
-      const rawTariff = parseFloat(document.getElementById('rawTariff').value);
-      const countryGDP = parseFloat(document.getElementById('countryGDP').value);
-      const delta = parseFloat(document.getElementById('delta').value);
+      const deficitRatio = parseFloat(document.getElementById('deficitRatio').value);
+      const marketAccessGap = parseFloat(document.getElementById('marketAccessGap').value);
+      const ppiGap = parseFloat(document.getElementById('ppiGap').value);
       const existingTariff = parseFloat(document.getElementById('existingTariff').value);
 
-      const usGDP = 65000; // U.S. GDP per capita fixed for 2024
+      const alpha = 0.4;
+      const beta = 0.3;
+      const gamma = 0.3;
 
-      if (isNaN(rawTariff) || isNaN(countryGDP) || isNaN(delta) || isNaN(existingTariff)) {
+      if (isNaN(deficitRatio) || isNaN(marketAccessGap) || isNaN(ppiGap) || isNaN(existingTariff)) {
         document.getElementById('result').textContent = "Please fill out all fields with valid numbers.";
         return;
       }
 
-      const devGap = 1 - (countryGDP / usGDP);
-      const adjustedTariff = (rawTariff * (1 - devGap * delta)) - existingTariff;
+      const baseTariff = (deficitRatio * alpha) + (marketAccessGap * beta) + (ppiGap * gamma);
+      const adjustedTariff = (baseTariff * 100) - existingTariff;
 
-      document.getElementById('result').textContent = `Adjusted Tariff: ${adjustedTariff.toFixed(2)}%`;
+      document.getElementById('result').textContent = `Adjusted Tariff Rate: ${adjustedTariff.toFixed(2)}%`;
     }
   </script>
 </body>
