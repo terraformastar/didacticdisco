@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tariff Calculator</title>
   <style>
     body {
@@ -39,19 +39,19 @@
   <h1>Tariff Calculator</h1>
 
   <label for="rawTariff">Raw Tariff (%)</label>
-  <input type="number" id="rawTariff" placeholder="e.g. 46">
+  <input type="number" id="rawTariff" placeholder="e.g. 46" />
 
   <label for="countryGDP">Country GDP per Capita</label>
-  <input type="number" id="countryGDP" placeholder="e.g. 4300">
+  <input type="number" id="countryGDP" placeholder="e.g. 4300" />
 
   <label for="usGDP">U.S. GDP per Capita</label>
-  <input type="number" id="usGDP" placeholder="e.g. 65000" value="65000">
+  <input type="number" id="usGDP" placeholder="e.g. 65000" value="65000" />
 
   <label for="delta">Delta (δ)</label>
-  <input type="number" step="0.01" id="delta" placeholder="e.g. 0.25" value="0.25">
+  <input type="number" step="0.01" id="delta" placeholder="e.g. 0.25" value="0.25" />
 
   <label for="existingTariff">Existing Tariff Offset (%)</label>
-  <input type="number" id="existingTariff" placeholder="e.g. 9.4">
+  <input type="number" id="existingTariff" placeholder="e.g. 9.4" />
 
   <button onclick="calculateTariff()">Calculate Adjusted Tariff</button>
 
