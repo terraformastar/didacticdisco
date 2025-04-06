@@ -1,6 +1,4 @@
-<p class="text-center mt-5 mb-8 text-sm text-gray-500">
-          Data sources: World Bank, IMF, US Trade Representative, Bureau of Labor Statistics, and UNCTAD
-        </p><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -90,7 +88,7 @@
 <body>
     <div class="container">
         <h1 class="text-center text-2xl font-bold mb-6">Fair Tariff Calculator</h1>
-      <p class="text-center mb-4">Calculate fair trade tariffs based on economic disparities between countries</p>
+        <p class="text-center mb-4">Calculate fair trade tariffs based on economic disparities between countries</p>
         
         <div class="card">
             <div class="form-group">
@@ -122,24 +120,19 @@
                     <p class="help-text">Market elasticity factor</p>
                 </div>
                 <div class="form-group">
-                    <label for="deficitRatio">Deficit Ratio</label>
+                    <label for="deficitRatio">Budget Deficit (%)</label>
                     <input type="number" id="deficitRatio" step="0.01">
-                    <p class="help-text">Budget deficit as fraction of GDP</p>
+                    <p class="help-text">Government budget deficit as % of GDP</p>
                 </div>
                 <div class="form-group">
-                    <label for="wageIndex">Wage Index (0-1)</label>
-                    <input type="number" id="wageIndex" step="0.01" min="0" max="1">
-                    <p class="help-text">Relative wage level (1=reference)</p>
+                    <label for="wageIndex">Manufacturing Wage (%)</label>
+                    <input type="number" id="wageIndex" step="0.01" min="0" max="100">
+                    <p class="help-text">As % of US wages ($28.64/hr)</p>
                 </div>
                 <div class="form-group">
-                    <label for="tradeImbalance">Trade Imbalance</label>
+                    <label for="tradeImbalance">Trade Imbalance (%)</label>
                     <input type="number" id="tradeImbalance" step="0.01">
-                    <p class="help-text">Trade deficit/surplus as fraction of GDP</p>
-                </div>
-                <div class="form-group">
-                    <label for="referenceWage">Reference Wage (USD/hr)</label>
-                    <input type="number" id="referenceWage" value="20">
-                    <p class="help-text">Baseline for wage comparison</p>
+                    <p class="help-text">Trade deficit with US as % of bilateral trade</p>
                 </div>
             </div>
             
@@ -163,21 +156,25 @@
                     <h3 class="font-semibold text-center mb-2">Economic Profile: <span id="profileCountry"></span></h3>
                     <div class="grid-2 text-sm">
                         <div><strong>GDP per Capita:</strong> $<span id="profileGDP"></span></div>
-                        <div><strong>Wage Index:</strong> <span id="profileWage"></span>% of reference</div>
+                        <div><strong>Wage Index:</strong> <span id="profileWage"></span>% of US wages</div>
                         <div><strong>PPI Gap:</strong> <span id="profilePPI"></span>%</div>
-                        <div><strong>Trade Imbalance:</strong> <span id="profileTrade"></span>% of GDP</div>
+                        <div><strong>Trade Imbalance:</strong> <span id="profileTrade"></span>% of bilateral trade</div>
                     </div>
                 </div>
                 
                 <div class="mt-4 text-sm text-gray-600">
                     <p class="mb-1"><strong>GDP Factor:</strong> Economic development level</p>
-                    <p class="mb-1"><strong>Wage Index:</strong> Relative labor costs compared to reference</p>
+                    <p class="mb-1"><strong>Wage Index:</strong> Relative labor costs compared to US</p>
                     <p class="mb-1"><strong>PPI Gap:</strong> Purchasing power disparity</p>
-                    <p class="mb-1"><strong>Trade Imbalance:</strong> Deficit/surplus as % of GDP</p>
+                    <p class="mb-1"><strong>Trade Imbalance:</strong> Deficit as % of bilateral trade</p>
                     <p><strong>Delta (δ):</strong> Price elasticity of market response</p>
                 </div>
             </div>
         </div>
+        
+        <p class="text-center mt-5 mb-8 text-sm text-gray-500">
+            Data sources: World Bank, IMF, US Trade Representative, Bureau of Labor Statistics, and UNCTAD
+        </p>
     </div>
 
     <script>
@@ -187,181 +184,181 @@
                 gdpPerCapita: 2180, 
                 ppiGap: 0.68, 
                 defaultTariff: 7.5, 
-                deficitRatio: 0.042, 
+                deficitRatio: 4.2, 
                 delta: 0.055,
-                wageIndex: 0.18,
-                tradeImbalance: 0.082
+                wageIndex: 15,
+                tradeImbalance: 8.2
             },
             Bangladesh: { 
                 gdpPerCapita: 2762, 
                 ppiGap: 0.58, 
                 defaultTariff: 13.5, 
-                deficitRatio: 0.051, 
+                deficitRatio: 5.1, 
                 delta: 0.062,
-                wageIndex: 0.12,
-                tradeImbalance: 0.053
+                wageIndex: 10,
+                tradeImbalance: 5.3
             },
             'Bosnia Herzegovina': { 
                 gdpPerCapita: 7427, 
                 ppiGap: 0.41, 
                 defaultTariff: 6.8, 
-                deficitRatio: 0.039, 
+                deficitRatio: 3.9, 
                 delta: 0.048,
-                wageIndex: 0.31,
-                tradeImbalance: 0.062
+                wageIndex: 31,
+                tradeImbalance: 6.2
             },
             Botswana: { 
                 gdpPerCapita: 7754, 
                 ppiGap: 0.36, 
                 defaultTariff: 7.4, 
-                deficitRatio: 0.021, 
+                deficitRatio: 2.1, 
                 delta: 0.043,
-                wageIndex: 0.34,
-                tradeImbalance: 0.045
+                wageIndex: 34,
+                tradeImbalance: 4.5
             },
             Cambodia: { 
                 gdpPerCapita: 1944, 
                 ppiGap: 0.61, 
                 defaultTariff: 10.8, 
-                deficitRatio: 0.034, 
+                deficitRatio: 3.4, 
                 delta: 0.067,
-                wageIndex: 0.14,
-                tradeImbalance: 0.074
+                wageIndex: 12,
+                tradeImbalance: 7.4
             },
             China: { 
                 gdpPerCapita: 13895, 
                 ppiGap: 0.32, 
                 defaultTariff: 7.1, 
-                deficitRatio: 0.028, 
+                deficitRatio: 2.8, 
                 delta: 0.041,
-                wageIndex: 0.38,
-                tradeImbalance: -0.035
+                wageIndex: 30,
+                tradeImbalance: 78.4
             },
             'Falkland Islands': { 
                 gdpPerCapita: 74200, 
                 ppiGap: 0.16, 
                 defaultTariff: 3.2, 
-                deficitRatio: 0.009, 
+                deficitRatio: 0.9, 
                 delta: 0.031,
-                wageIndex: 0.85,
-                tradeImbalance: 0.021
+                wageIndex: 85,
+                tradeImbalance: 2.1
             },
             Guyana: { 
                 gdpPerCapita: 14480, 
                 ppiGap: 0.42, 
                 defaultTariff: 8.7, 
-                deficitRatio: 0.027, 
+                deficitRatio: 2.7, 
                 delta: 0.062,
-                wageIndex: 0.35,
-                tradeImbalance: 0.048
+                wageIndex: 35,
+                tradeImbalance: 4.8
             },
             Iraq: { 
                 gdpPerCapita: 5487, 
                 ppiGap: 0.53, 
                 defaultTariff: 10.6, 
-                deficitRatio: 0.058, 
+                deficitRatio: 5.8, 
                 delta: 0.071,
-                wageIndex: 0.28,
-                tradeImbalance: 0.086
+                wageIndex: 28,
+                tradeImbalance: 8.6
             },
             Laos: { 
                 gdpPerCapita: 2835, 
                 ppiGap: 0.56, 
                 defaultTariff: 8.9, 
-                deficitRatio: 0.041, 
+                deficitRatio: 4.1, 
                 delta: 0.059,
-                wageIndex: 0.17,
-                tradeImbalance: 0.064
+                wageIndex: 15,
+                tradeImbalance: 6.4
             },
             Lesotho: { 
                 gdpPerCapita: 1250, 
                 ppiGap: 0.72, 
                 defaultTariff: 11.2, 
-                deficitRatio: 0.068, 
+                deficitRatio: 6.8, 
                 delta: 0.079,
-                wageIndex: 0.11,
-                tradeImbalance: 0.093
+                wageIndex: 11,
+                tradeImbalance: 9.3
             },
             Liechtenstein: { 
                 gdpPerCapita: 193500, 
                 ppiGap: 0.03, 
                 defaultTariff: 0.1, 
-                deficitRatio: 0.003, 
+                deficitRatio: 0.3, 
                 delta: 0.018,
-                wageIndex: 0.97,
-                tradeImbalance: -0.012
+                wageIndex: 97,
+                tradeImbalance: -1.2
             },
             Madagascar: { 
                 gdpPerCapita: 590, 
                 ppiGap: 0.77, 
                 defaultTariff: 14.4, 
-                deficitRatio: 0.065, 
+                deficitRatio: 6.5, 
                 delta: 0.084,
-                wageIndex: 0.08,
-                tradeImbalance: 0.097
+                wageIndex: 8,
+                tradeImbalance: 9.7
             },
             Mauritius: { 
                 gdpPerCapita: 11240, 
                 ppiGap: 0.33, 
                 defaultTariff: 6.3, 
-                deficitRatio: 0.035, 
+                deficitRatio: 3.5, 
                 delta: 0.046,
-                wageIndex: 0.41,
-                tradeImbalance: 0.052
+                wageIndex: 41,
+                tradeImbalance: 5.2
             },
             Myanmar: { 
                 gdpPerCapita: 1355, 
                 ppiGap: 0.66, 
                 defaultTariff: 9.5, 
-                deficitRatio: 0.047, 
+                deficitRatio: 4.7, 
                 delta: 0.068,
-                wageIndex: 0.12,
-                tradeImbalance: 0.071
+                wageIndex: 10,
+                tradeImbalance: 7.1
             },
             Serbia: { 
                 gdpPerCapita: 9786, 
                 ppiGap: 0.39, 
                 defaultTariff: 7.6, 
-                deficitRatio: 0.031, 
+                deficitRatio: 3.1, 
                 delta: 0.044,
-                wageIndex: 0.36,
-                tradeImbalance: 0.059
+                wageIndex: 36,
+                tradeImbalance: 5.9
             },
             'Sri Lanka': { 
                 gdpPerCapita: 3937, 
                 ppiGap: 0.48, 
                 defaultTariff: 11.2, 
-                deficitRatio: 0.066, 
+                deficitRatio: 6.6, 
                 delta: 0.058,
-                wageIndex: 0.21,
-                tradeImbalance: 0.078
+                wageIndex: 21,
+                tradeImbalance: 7.8
             },
             Syria: { 
                 gdpPerCapita: 780, 
                 ppiGap: 0.73, 
                 defaultTariff: 12.8, 
-                deficitRatio: 0.079, 
+                deficitRatio: 7.9, 
                 delta: 0.091,
-                wageIndex: 0.09,
-                tradeImbalance: 0.105
+                wageIndex: 9,
+                tradeImbalance: 10.5
             },
             Thailand: { 
                 gdpPerCapita: 7845, 
                 ppiGap: 0.38, 
                 defaultTariff: 8.5, 
-                deficitRatio: 0.032, 
+                deficitRatio: 3.2, 
                 delta: 0.047,
-                wageIndex: 0.33,
-                tradeImbalance: 0.041
+                wageIndex: 26,
+                tradeImbalance: 36.5
             },
             Vietnam: { 
                 gdpPerCapita: 4085, 
                 ppiGap: 0.44, 
                 defaultTariff: 9.4, 
-                deficitRatio: 0.038, 
+                deficitRatio: 3.8, 
                 delta: 0.053,
-                wageIndex: 0.08,
-                tradeImbalance: 0.90
+                wageIndex: 9.5,
+                tradeImbalance: 90.4
             }
         };
 
@@ -421,9 +418,8 @@
             const deficitRatio = parseFloat(deficitInput.value);
             const wageIndex = parseFloat(wageInput.value);
             const tradeImbalance = parseFloat(tradeInput.value);
-            const referenceWage = parseFloat(referenceWageInput.value);
             
-            if (!gdpPerCapita || !ppiGap || !existingTariff || !delta || !deficitRatio || !wageIndex || !tradeImbalance || !referenceWage) {
+            if (!gdpPerCapita || !ppiGap || !existingTariff || !delta || !deficitRatio || !wageIndex || !tradeImbalance) {
                 alert('Please fill in all fields');
                 return;
             }
@@ -480,9 +476,9 @@
             if (selectedCountry) {
                 profileCountrySpan.textContent = selectedCountry;
                 profileGDPSpan.textContent = gdpPerCapita.toLocaleString();
-                profileWageSpan.textContent = (wageIndex * 100).toFixed(0);
+                profileWageSpan.textContent = wageIndex;
                 profilePPISpan.textContent = (ppiGap * 100).toFixed(0);
-                profileTradeSpan.textContent = (tradeImbalance * 100).toFixed(1);
+                profileTradeSpan.textContent = tradeImbalance;
                 countryProfileDiv.classList.remove('hidden');
             } else {
                 countryProfileDiv.classList.add('hidden');
@@ -502,7 +498,6 @@
             deficitInput.value = '';
             wageInput.value = '';
             tradeInput.value = '';
-            referenceWageInput.value = '20';
             resultsDiv.classList.add('hidden');
         });
 
