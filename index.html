@@ -56,24 +56,23 @@
   <label for="countrySelect">Select Country</label>
   <select id="countrySelect" onchange="populateFields()">
     <option value="">--Select a Country--</option>
-    <option value="bosnia">Bosnia and Herzegovina</option>
-    <option value="botswana">Botswana</option>
-    <option value="cambodia">Cambodia</option>
-    <option value="china">China</option>
-    <option value="guyana">Guyana</option>
-    <option value="indonesia">Indonesia</option>
-    <option value="laos">Laos</option>
-    <option value="lesotho">Lesotho</option>
-    <option value="madagascar">Madagascar</option>
-    <option value="mauritius">Mauritius</option>
-    <option value="myanmar">Myanmar</option>
-    <option value="northmacedonia">North Macedonia</option>
-    <option value="serbia">Serbia</option>
-    <option value="srilanka">Sri Lanka</option>
-    <option value="switzerland">Switzerland</option>
-    <option value="taiwan">Taiwan</option>
-    <option value="thailand">Thailand</option>
     <option value="vietnam">Vietnam</option>
+    <option value="china">China</option>
+    <option value="cambodia">Cambodia</option>
+    <option value="lesotho">Lesotho</option>
+    <option value="laos">Laos</option>
+    <option value="myanmar">Myanmar</option>
+    <option value="srilanka">Sri Lanka</option>
+    <option value="mauritius">Mauritius</option>
+    <option value="botswana">Botswana</option>
+    <option value="serbia">Serbia</option>
+    <option value="thailand">Thailand</option>
+    <option value="guyana">Guyana</option>
+    <option value="bosnia">Bosnia and Herzegovina</option>
+    <option value="taiwan">Taiwan</option>
+    <option value="switzerland">Switzerland</option>
+    <option value="northmacedonia">North Macedonia</option>
+    <option value="indonesia">Indonesia</option>
   </select>
 
   <label for="countryGDP">Country GDP per Capita (USD)</label>
@@ -97,17 +96,48 @@
     <p><strong>Sources:</strong></p>
     <ul style="text-align:left; font-size: 11px; padding-left: 20px;">
       <li>IMF World Economic Outlook Database, 2024</li>
-      <li>USTR and WTO Tariff Schedules</li>
-      <li>Goldman Sachs and White House Trade Projections</li>
-      <li>World Bank Purchasing Power Parity Index, 2024</li>
+      <li>World Bank PPP Index</li>
+      <li>WTO Tariff Profiles</li>
+      <li>USTR Market Access Reports</li>
+      <li>Reuters, Goldman Sachs Tariff Watch (April 2025)</li>
     </ul>
   </div>
 
   <div class="how-it-works">
-    This calculator determines an adjusted tariff rate based on GDP per capita, Purchasing Power Index gap (PPI Gap), and existing tariff offset. It uses a relative development gap against the U.S. and a weighting factor delta (δ) to scale fairness adjustments. No raw tariff input is used; all results are derived from contextual data.
+    This calculator determines an adjusted tariff rate based on GDP per capita, Purchasing Power Index gap (PPI Gap), and existing tariff offset. Country presets populate fields automatically using available 2024–2025 economic data. Delta (δ) lets users adjust for fairness based on development gap sensitivity.
   </div>
 
   <script>
+    const countryData = {
+      vietnam: { gdp: 4300, ppi: 0.546, tariff: 9.4 },
+      china: { gdp: 12600, ppi: 0.68, tariff: 8.0 },
+      cambodia: { gdp: 1700, ppi: 0.63, tariff: 7.9 },
+      lesotho: { gdp: 1100, ppi: 0.58, tariff: 10.6 },
+      laos: { gdp: 2600, ppi: 0.62, tariff: 8.3 },
+      myanmar: { gdp: 1400, ppi: 0.61, tariff: 5.7 },
+      srilanka: { gdp: 3800, ppi: 0.59, tariff: 7.5 },
+      mauritius: { gdp: 10400, ppi: 0.71, tariff: 1.3 },
+      botswana: { gdp: 7600, ppi: 0.69, tariff: 5.6 },
+      serbia: { gdp: 7800, ppi: 0.70, tariff: 6.4 },
+      thailand: { gdp: 7600, ppi: 0.69, tariff: 6.3 },
+      guyana: { gdp: 9500, ppi: 0.72, tariff: 13.0 },
+      bosnia: { gdp: 7200, ppi: 0.68, tariff: 7.5 },
+      taiwan: { gdp: 32000, ppi: 0.89, tariff: 1.7 },
+      switzerland: { gdp: 83000, ppi: 0.95, tariff: 1.7 },
+      northmacedonia: { gdp: 6100, ppi: 0.67, tariff: 6.1 },
+      indonesia: { gdp: 4500, ppi: 0.65, tariff: 5.3 }
+    };
+
+    function populateFields() {
+      const selected = document.getElementById('countrySelect').value;
+      const data = countryData[selected];
+      if (data) {
+        document.getElementById('countryGDP').value = data.gdp;
+        document.getElementById('ppiGap').value = data.ppi;
+        document.getElementById('existingTariff').value = data.tariff;
+      }
+    }
+
     function calculateTariff() {
       const countryGDP = parseFloat(document.getElementById('countryGDP').value);
       const ppiGap = parseFloat(document.getElementById('ppiGap').value);
