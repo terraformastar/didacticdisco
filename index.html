@@ -41,10 +41,14 @@
       font-size: 18px;
       text-align: center;
     }
-    .note, .sources {
+    .note, .sources, .formula-summary {
       font-size: 12px;
       margin-top: 20px;
       color: #555;
+    }
+    .formula-summary {
+      border-top: 1px solid #ccc;
+      padding-top: 15px;
     }
   </style>
 </head>
@@ -74,6 +78,21 @@
 
   <div id="result"></div>
   <div class="note">U.S. GDP per capita fixed at $65,000 (2024)</div>
+
+  <div class="formula-summary">
+    <strong>How the Formula Works:</strong><br>
+    The tariff calculator estimates a fair tariff using the following expression:<br><br>
+    <code>Adjusted Tariff = ((PPI Gap + Development Gap) / 2) × (1 - Development Gap × δ) × 100 - Existing Tariff</code><br><br>
+    <strong>Definitions:</strong>
+    <ul>
+      <li><strong>PPI Gap</strong>: Reflects price level differences between countries (0 to 1 scale)</li>
+      <li><strong>Development Gap</strong>: 1 - (Country GDP per Capita / U.S. GDP per Capita)</li>
+      <li><strong>Delta (δ)</strong>: Adjustable weight factor to scale development impact (default = 0.25)</li>
+      <li><strong>Existing Tariff</strong>: Current average tariff already applied to the country</li>
+    </ul>
+    This approach balances price differences and income disparities to avoid over-penalizing less developed economies.
+  </div>
+
   <div class="sources">
     <p><strong>Sources:</strong></p>
     <ul>
@@ -110,7 +129,6 @@
       angola: { gdp: 3200, gdpPPP: 6800, ppi: 0.60, tariff: 32.0, deficit: 7.4 }
     };
 
-    // Populate dropdown
     const select = document.getElementById('countrySelect');
     Object.keys(highestTariffedCountries).sort().forEach(key => {
       const opt = document.createElement('option');
