@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fundamental Tariff Calculator</title>
+  <title>Tariff Calculator</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
@@ -55,7 +55,7 @@
   </style>
 </head>
 <body>
-  <h1>Fundamental Tariff Calculator</h1>
+  <h1>Tariff Calculator</h1>
 
   <label for="country">Select Country</label>
   <select id="country" onchange="populateFields()">
@@ -124,7 +124,8 @@
         return;
       }
 
-      const baseTariff = (deficitRatio * alpha) + (marketAccessGap * beta) + (ppiGap * gamma);
+      const devGap = 1 - (1 - ppiGap) * delta;
+      const baseTariff = ((deficitRatio * alpha) + (marketAccessGap * beta) + (ppiGap * gamma)) * devGap;
       const adjustedTariff = (baseTariff * 100) - existingTariff;
 
       document.getElementById('result').textContent = `Calculated Raw Tariff Output: ${adjustedTariff.toFixed(2)}%`;
