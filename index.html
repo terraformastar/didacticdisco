@@ -172,27 +172,56 @@
             </div>
         </div>
         
-        <p class="text-center mt-5 mb-2 text-sm text-gray-700 font-semibold">
-            Manufacturing Hourly Wages (in USD, 2024-2025 data)
-        </p>
-        <p class="text-center mb-5 text-sm text-gray-500">
-            United States: $28.64 | China: $6.50 | Vietnam: $3.00 | Thailand: $4.35
-        </p>
-        <p class="text-center mb-2 text-sm text-gray-700 font-semibold">
-            Tariff Formula Explanation
-        </p>
-        <p class="text-center mb-1 text-sm text-gray-500">
-            Step 1: Fair Tariff = 5% + (PPI Gap × 8) + ((1 - Wage%/100) × 12) + (Trade%/100 × 40) - (log₁₀(GDP)/5 × 1.8)
-        </p>
-        <p class="text-center mb-1 text-sm text-gray-500">
-            Step 2: Adjustment = Fair Tariff - Existing Tariff
-        </p>
-        <p class="text-center mb-8 text-sm text-gray-500">
-            Step 3: Adjusted Tariff = Existing + (Adjustment × 0.7) - (δ × 6) + (Deficit%/100 × 5)
-        </p>
-        <p class="text-center mb-8 text-xs text-gray-400">
-            Data sources: Trading Economics (2025), BLS, Boston Consulting Group (2024), IMF, WTO
-        </p>
+        <div class="mt-10 mb-10 bg-gray-50 p-5 rounded-lg border border-gray-200 text-sm">
+            <h3 class="text-center font-bold text-gray-700 mb-4">Fair Tariff Calculator: Detailed Explanation</h3>
+            
+            <div class="mb-6">
+                <h4 class="font-semibold text-gray-700 mb-2">Manufacturing Hourly Wages (in USD, 2024-2025 data)</h4>
+                <p class="text-gray-600 mb-1">United States: $28.64 | China: $6.50 (22.7% of US) | Vietnam: $3.00 (10.5% of US) | Thailand: $4.35 (15.2% of US)</p>
+                <p class="text-gray-500 text-xs">Source: Trading Economics, Boston Consulting Group, Bureau of Labor Statistics</p>
+            </div>
+            
+            <div class="mb-6">
+                <h4 class="font-semibold text-gray-700 mb-2">Complete Algebraic Formula</h4>
+                <div class="bg-white p-3 rounded border border-gray-300 mb-2">
+                    <p class="mb-1"><strong>Step 1:</strong> Calculate Fair Tariff (FT)</p>
+                    <p class="mb-3 pl-4">FT = 5 + (PPI × 8) + ((1 - Wage%/100) × 12) + (Trade%/100 × 40) - (log<sub>10</sub>(GDP)/5 × 1.8)</p>
+                    
+                    <p class="mb-1"><strong>Step 2:</strong> Calculate Adjustment</p>
+                    <p class="mb-3 pl-4">Adjustment = FT - Existing Tariff</p>
+                    
+                    <p class="mb-1"><strong>Step 3:</strong> Calculate Adjusted Tariff (AT)</p>
+                    <p class="pl-4">AT = Existing Tariff + (Adjustment × 0.7) - (δ × 6) + (Deficit%/100 × 5)</p>
+                </div>
+            </div>
+            
+            <div class="mb-6">
+                <h4 class="font-semibold text-gray-700 mb-2">Parameter Definitions</h4>
+                <ul class="list-disc pl-5 text-gray-600">
+                    <li><strong>PPI (Purchasing Power Imbalance):</strong> Gap in purchasing power (0-1 scale)</li>
+                    <li><strong>Wage%:</strong> Manufacturing wages as percentage of US wages</li>
+                    <li><strong>Trade%:</strong> Trade imbalance with US as percentage of bilateral trade</li>
+                    <li><strong>GDP:</strong> Gross Domestic Product per capita in USD</li>
+                    <li><strong>δ (Delta):</strong> Market elasticity factor</li>
+                    <li><strong>Deficit%:</strong> Government budget deficit as percentage of GDP</li>
+                </ul>
+            </div>
+            
+            <div class="mb-4">
+                <h4 class="font-semibold text-gray-700 mb-2">Example Calculation for Vietnam</h4>
+                <div class="bg-white p-3 rounded border border-gray-300">
+                    <p class="mb-1">Using Vietnam's data: GDP=$4,085, PPI=0.44, Wage=10.5%, Trade=90.4%, δ=0.053, Deficit=3.8%, Existing Tariff=9.4%</p>
+                    <p class="mb-1">Fair Tariff = 5 + (0.44 × 8) + ((1 - 10.5/100) × 12) + (90.4/100 × 40) - (log<sub>10</sub>(4085)/5 × 1.8)</p>
+                    <p class="mb-1">Fair Tariff = 5 + 3.52 + 10.74 + 36.16 - 1.23 = 54.19%</p>
+                    <p class="mb-1">Adjustment = 54.19 - 9.4 = 44.79%</p>
+                    <p class="mb-1">Adjusted Tariff = 9.4 + (44.79 × 0.7) - (0.053 × 6) + (3.8/100 × 5) = 40.62%</p>
+                </div>
+            </div>
+            
+            <p class="text-xs text-gray-500 text-center">
+                Data sources: Trading Economics (2025), BLS, Boston Consulting Group (2024), IMF, WTO
+            </p>
+        </div>
     </div>
 
     <script>
