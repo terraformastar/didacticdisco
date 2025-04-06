@@ -172,10 +172,26 @@
             </div>
         </div>
         
-        <p class="text-center mt-5 mb-8 text-sm text-gray-500">
-            Formula: Fair Tariff = 5 + (PPI × 8) + ((1 - Wage/100) × 12) + (Trade/100 × 40) - (log<sub>10</sub>(GDP)/5 × 1.8)<br>
-            Adjusted Tariff = Existing + (Fair - Existing) × 0.7 - (δ × 6) + (Deficit/100 × 5)<br>
-            Data sources: World Bank, IMF, US Trade Representative, Bureau of Labor Statistics, and UNCTAD
+        <p class="text-center mt-5 mb-2 text-sm text-gray-700 font-semibold">
+            Manufacturing Hourly Wages (in USD, 2024-2025 data)
+        </p>
+        <p class="text-center mb-5 text-sm text-gray-500">
+            United States: $28.64 | China: $6.50 | Vietnam: $3.00 | Thailand: $4.35
+        </p>
+        <p class="text-center mb-2 text-sm text-gray-700 font-semibold">
+            Tariff Formula Explanation
+        </p>
+        <p class="text-center mb-1 text-sm text-gray-500">
+            Step 1: Fair Tariff = 5% + (PPI Gap × 8) + ((1 - Wage%/100) × 12) + (Trade%/100 × 40) - (log₁₀(GDP)/5 × 1.8)
+        </p>
+        <p class="text-center mb-1 text-sm text-gray-500">
+            Step 2: Adjustment = Fair Tariff - Existing Tariff
+        </p>
+        <p class="text-center mb-8 text-sm text-gray-500">
+            Step 3: Adjusted Tariff = Existing + (Adjustment × 0.7) - (δ × 6) + (Deficit%/100 × 5)
+        </p>
+        <p class="text-center mb-8 text-xs text-gray-400">
+            Data sources: Trading Economics (2025), BLS, Boston Consulting Group (2024), IMF, WTO
         </p>
     </div>
 
