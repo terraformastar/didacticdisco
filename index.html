@@ -56,16 +56,26 @@
   <label for="countrySelect">Select Country</label>
   <select id="countrySelect" onchange="populateFields()">
     <option value="">--Select a Country--</option>
-    <option value="vietnam">Vietnam</option>
-    <option value="china">China</option>
-    <option value="mexico">Mexico</option>
-    <option value="germany">Germany</option>
-    <option value="japan">Japan</option>
-    <option value="southkorea">South Korea</option>
-    <option value="india">India</option>
-    <option value="italy">Italy</option>
-    <option value="france">France</option>
+    <option value="brazil">Brazil</option>
     <option value="canada">Canada</option>
+    <option value="china">China</option>
+    <option value="france">France</option>
+    <option value="germany">Germany</option>
+    <option value="india">India</option>
+    <option value="indonesia">Indonesia</option>
+    <option value="italy">Italy</option>
+    <option value="japan">Japan</option>
+    <option value="malaysia">Malaysia</option>
+    <option value="mexico">Mexico</option>
+    <option value="philippines">Philippines</option>
+    <option value="poland">Poland</option>
+    <option value="russia">Russia</option>
+    <option value="southkorea">South Korea</option>
+    <option value="spain">Spain</option>
+    <option value="taiwan">Taiwan</option>
+    <option value="thailand">Thailand</option>
+    <option value="turkey">Turkey</option>
+    <option value="vietnam">Vietnam</option>
   </select>
 
   <label for="rawTariff">Raw Tariff (%)</label>
@@ -87,16 +97,26 @@
 
   <script>
     const countryData = {
-      vietnam: { rawTariff: 46, gdp: 4300, existingTariff: 9.4 },
+      brazil: { rawTariff: 18, gdp: 8900, existingTariff: 8.0 },
+      canada: { rawTariff: 12, gdp: 48300, existingTariff: 1.6 },
       china: { rawTariff: 54, gdp: 12600, existingTariff: 8.0 },
-      mexico: { rawTariff: 25, gdp: 10800, existingTariff: 7.0 },
-      germany: { rawTariff: 20, gdp: 50500, existingTariff: 4.5 },
-      japan: { rawTariff: 18, gdp: 40200, existingTariff: 4.3 },
-      southkorea: { rawTariff: 15, gdp: 31500, existingTariff: 6.5 },
-      india: { rawTariff: 35, gdp: 2100, existingTariff: 17.0 },
-      italy: { rawTariff: 22, gdp: 34200, existingTariff: 4.2 },
       france: { rawTariff: 19, gdp: 43300, existingTariff: 4.0 },
-      canada: { rawTariff: 12, gdp: 48300, existingTariff: 1.6 }
+      germany: { rawTariff: 20, gdp: 50500, existingTariff: 4.5 },
+      india: { rawTariff: 35, gdp: 2100, existingTariff: 17.0 },
+      indonesia: { rawTariff: 24, gdp: 4500, existingTariff: 7.5 },
+      italy: { rawTariff: 22, gdp: 34200, existingTariff: 4.2 },
+      japan: { rawTariff: 18, gdp: 40200, existingTariff: 4.3 },
+      malaysia: { rawTariff: 16, gdp: 11200, existingTariff: 6.0 },
+      mexico: { rawTariff: 25, gdp: 10800, existingTariff: 7.0 },
+      philippines: { rawTariff: 21, gdp: 3800, existingTariff: 6.5 },
+      poland: { rawTariff: 17, gdp: 15800, existingTariff: 3.8 },
+      russia: { rawTariff: 28, gdp: 12100, existingTariff: 5.0 },
+      southkorea: { rawTariff: 15, gdp: 31500, existingTariff: 6.5 },
+      spain: { rawTariff: 18, gdp: 29300, existingTariff: 3.9 },
+      taiwan: { rawTariff: 14, gdp: 32000, existingTariff: 5.5 },
+      thailand: { rawTariff: 19, gdp: 7600, existingTariff: 6.0 },
+      turkey: { rawTariff: 26, gdp: 9500, existingTariff: 5.7 },
+      vietnam: { rawTariff: 46, gdp: 4300, existingTariff: 9.4 }
     };
 
     function populateFields() {
