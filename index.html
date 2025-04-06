@@ -127,7 +127,7 @@
                 <div class="form-group">
                     <label for="wageIndex">Manufacturing Wage (%)</label>
                     <input type="number" id="wageIndex" step="0.01" min="0" max="100">
-                    <p class="help-text">As % of US wages ($28.64/hr)</p>
+                    <p class="help-text">As % of US wages ($18.98/hr)</p>
                 </div>
                 <div class="form-group">
                     <label for="tradeImbalance">Trade Imbalance (%)</label>
@@ -173,6 +173,8 @@
         </div>
         
         <p class="text-center mt-5 mb-8 text-sm text-gray-500">
+            Formula: Fair Tariff = 5 + (PPI × 8) + ((1 - Wage/100) × 12) + (Trade/100 × 40) - (log<sub>10</sub>(GDP)/5 × 1.8)<br>
+            Adjusted Tariff = Existing + (Fair - Existing) × 0.7 - (δ × 6) + (Deficit/100 × 5)<br>
             Data sources: World Bank, IMF, US Trade Representative, Bureau of Labor Statistics, and UNCTAD
         </p>
     </div>
