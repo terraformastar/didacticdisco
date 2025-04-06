@@ -124,7 +124,7 @@
         return;
       }
 
-      const devGap = 1 - (1 - ppiGap) * delta;
+      const devGap = 1 - (ppiGap * delta);
       const baseTariff = ((deficitRatio * alpha) + (marketAccessGap * beta) + (ppiGap * gamma)) * devGap;
       const adjustedTariff = (baseTariff * 100) - existingTariff;
 
