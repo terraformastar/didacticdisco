@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tariff Calculator</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       max-width: 600px;
       margin: 20px auto;
-      padding: 15px;
+      padding: 20px;
       border: 1px solid #ccc;
       border-radius: 8px;
     }
@@ -20,132 +20,126 @@
       display: block;
       margin-top: 10px;
     }
-    input, select {
+    select, input {
       width: 100%;
-      padding: 6px;
-      margin-top: 2px;
+      padding: 8px;
+      margin-top: 4px;
+      margin-bottom: 10px;
     }
     button {
-      margin-top: 15px;
-      padding: 10px;
       width: 100%;
-      font-size: 15px;
+      padding: 10px;
       background-color: #007bff;
       color: white;
       border: none;
       border-radius: 5px;
-      cursor: pointer;
+      font-size: 16px;
     }
     #result {
       margin-top: 20px;
       font-weight: bold;
-      font-size: 16px;
+      font-size: 18px;
       text-align: center;
     }
-    .note, .footer, .how-it-works {
-      font-size: 11px;
+    .note, .sources {
+      font-size: 12px;
+      margin-top: 20px;
       color: #555;
-      margin-top: 10px;
-      text-align: center;
     }
   </style>
 </head>
 <body>
   <h1>Tariff Calculator</h1>
-
   <label for="countrySelect">Select Country</label>
-  <select id="countrySelect" onchange="populateFields()">
-    <option value="">--Select a Country--</option>
-    <option value="vietnam">Vietnam</option>
-    <option value="china">China</option>
-    <option value="cambodia">Cambodia</option>
-    <option value="lesotho">Lesotho</option>
-    <option value="laos">Laos</option>
-    <option value="myanmar">Myanmar</option>
-    <option value="srilanka">Sri Lanka</option>
-    <option value="mauritius">Mauritius</option>
-    <option value="botswana">Botswana</option>
-    <option value="serbia">Serbia</option>
-    <option value="thailand">Thailand</option>
-    <option value="guyana">Guyana</option>
-    <option value="bosnia">Bosnia and Herzegovina</option>
-    <option value="taiwan">Taiwan</option>
-    <option value="switzerland">Switzerland</option>
-    <option value="northmacedonia">North Macedonia</option>
-    <option value="indonesia">Indonesia</option>
+  <select id="countrySelect" onchange="populateFieldsFromData(this.value)">
+    <option value="">--Select--</option>
   </select>
 
-  <label for="countryGDP">Country GDP per Capita (USD)</label>
-  <input type="number" id="countryGDP" />
+  <label for="countryGDP">GDP per Capita (USD)</label>
+  <input type="number" id="countryGDP" readonly>
 
   <label for="ppiGap">PPI Gap (0 - 1)</label>
-  <input type="number" step="0.01" id="ppiGap" placeholder="e.g. 0.546" />
-
-  <label for="delta">Delta (δ)</label>
-  <input type="number" step="0.01" id="delta" value="0.25" />
+  <input type="number" id="ppiGap" step="0.01" readonly>
 
   <label for="existingTariff">Existing Tariff Offset (%)</label>
-  <input type="number" id="existingTariff" />
+  <input type="number" id="existingTariff" readonly>
 
-  <button onclick="calculateTariff()">Calculate Adjusted Tariff</button>
+  <label for="delta">Delta (δ)</label>
+  <input type="number" id="delta" step="0.01" value="0.25">
+
+  <label for="deficitRatio">Deficit Ratio (est.)</label>
+  <input type="number" id="deficitRatio" readonly>
+
+  <button onclick="calculateAdjustedTariff()">Calculate Adjusted Tariff</button>
 
   <div id="result"></div>
-  <div class="note">*U.S. GDP per capita fixed at $65,000 (2024)</div>
-
-  <div class="footer">
+  <div class="note">U.S. GDP per capita fixed at $65,000 (2024)</div>
+  <div class="sources">
     <p><strong>Sources:</strong></p>
-    <ul style="text-align:left; font-size: 11px; padding-left: 20px;">
-      <li>IMF World Economic Outlook Database, 2024</li>
-      <li>World Bank PPP Index</li>
+    <ul>
+      <li>IMF World Economic Outlook Database 2024–2025</li>
+      <li>World Bank Development Indicators</li>
       <li>WTO Tariff Profiles</li>
-      <li>USTR Market Access Reports</li>
-      <li>Reuters, Goldman Sachs Tariff Watch (April 2025)</li>
+      <li>USTR Reports</li>
+      <li>Goldman Sachs Tariff Watch, April 2025</li>
     </ul>
   </div>
 
-  <div class="how-it-works">
-    This calculator determines an adjusted tariff rate based on GDP per capita, Purchasing Power Index gap (PPI Gap), and existing tariff offset. Country presets populate fields automatically using available 2024–2025 economic data. Delta (δ) lets users adjust for fairness based on development gap sensitivity.
-  </div>
-
   <script>
-    const countryData = {
-      vietnam: { gdp: 4300, ppi: 0.546, tariff: 9.4 },
-      china: { gdp: 12600, ppi: 0.68, tariff: 8.0 },
-      cambodia: { gdp: 1700, ppi: 0.63, tariff: 7.9 },
-      lesotho: { gdp: 1100, ppi: 0.58, tariff: 10.6 },
-      laos: { gdp: 2600, ppi: 0.62, tariff: 8.3 },
-      myanmar: { gdp: 1400, ppi: 0.61, tariff: 5.7 },
-      srilanka: { gdp: 3800, ppi: 0.59, tariff: 7.5 },
-      mauritius: { gdp: 10400, ppi: 0.71, tariff: 1.3 },
-      botswana: { gdp: 7600, ppi: 0.69, tariff: 5.6 },
-      serbia: { gdp: 7800, ppi: 0.70, tariff: 6.4 },
-      thailand: { gdp: 7600, ppi: 0.69, tariff: 6.3 },
-      guyana: { gdp: 9500, ppi: 0.72, tariff: 13.0 },
-      bosnia: { gdp: 7200, ppi: 0.68, tariff: 7.5 },
-      taiwan: { gdp: 32000, ppi: 0.89, tariff: 1.7 },
-      switzerland: { gdp: 83000, ppi: 0.95, tariff: 1.7 },
-      northmacedonia: { gdp: 6100, ppi: 0.67, tariff: 6.1 },
-      indonesia: { gdp: 4500, ppi: 0.65, tariff: 5.3 }
+    const usGDP = 65000;
+    const highestTariffedCountries = {
+      lesotho: { gdp: 1250, gdpPPP: 3355, ppi: 0.58, tariff: 60.6, deficit: 9.1 },
+      cambodia: { gdp: 1914, gdpPPP: 5500, ppi: 0.63, tariff: 56.9, deficit: 9.1 },
+      laos: { gdp: 2100, gdpPPP: 9250, ppi: 0.62, tariff: 55.3, deficit: 2.4 },
+      vietnam: { gdp: 4700, gdpPPP: 15100, ppi: 0.546, tariff: 55.4, deficit: 123.5 },
+      china: { gdp: 12600, gdpPPP: 22500, ppi: 0.68, tariff: 54.0, deficit: 382.0 },
+      myanmar: { gdp: 1100, gdpPPP: 4800, ppi: 0.61, tariff: 50.7, deficit: 1.8 },
+      sriLanka: { gdp: 3800, gdpPPP: 13400, ppi: 0.59, tariff: 49.4, deficit: 5.2 },
+      madagascar: { gdp: 1400, gdpPPP: 3900, ppi: 0.54, tariff: 47.0, deficit: 0.6 },
+      falklandIslands: { gdp: 99000, gdpPPP: 99000, ppi: 0.93, tariff: 42.0, deficit: 0.1 },
+      syria: { gdp: 800, gdpPPP: 2200, ppi: 0.48, tariff: 41.0, deficit: 0.3 },
+      mauritius: { gdp: 10400, gdpPPP: 28700, ppi: 0.71, tariff: 41.2, deficit: 1.5 },
+      iraq: { gdp: 5200, gdpPPP: 14800, ppi: 0.65, tariff: 39.0, deficit: 12.7 },
+      guyana: { gdp: 18200, gdpPPP: 42200, ppi: 0.72, tariff: 38.0, deficit: 3.2 },
+      botswana: { gdp: 6800, gdpPPP: 17800, ppi: 0.67, tariff: 38.0, deficit: 2.1 },
+      serbia: { gdp: 9200, gdpPPP: 21500, ppi: 0.69, tariff: 38.0, deficit: 4.8 },
+      bangladesh: { gdp: 2700, gdpPPP: 8200, ppi: 0.57, tariff: 37.0, deficit: 28.9 },
+      thailand: { gdp: 7600, gdpPPP: 22400, ppi: 0.69, tariff: 37.0, deficit: 45.2 },
+      bosniaHerzegovina: { gdp: 6100, gdpPPP: 16500, ppi: 0.64, tariff: 36.0, deficit: 1.7 },
+      liechtenstein: { gdp: 185000, gdpPPP: 185000, ppi: 0.98, tariff: 37.0, deficit: 0.2 },
+      angola: { gdp: 3200, gdpPPP: 6800, ppi: 0.60, tariff: 32.0, deficit: 7.4 }
     };
 
-    function populateFields() {
-      const selected = document.getElementById('countrySelect').value;
-      const data = countryData[selected];
-      if (data) {
-        document.getElementById('countryGDP').value = data.gdp;
-        document.getElementById('ppiGap').value = data.ppi;
-        document.getElementById('existingTariff').value = data.tariff;
-      }
+    // Populate dropdown
+    const select = document.getElementById('countrySelect');
+    Object.keys(highestTariffedCountries).sort().forEach(key => {
+      const opt = document.createElement('option');
+      opt.value = key;
+      opt.textContent = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+      select.appendChild(opt);
+    });
+
+    function populateFieldsFromData(countryKey) {
+      const data = highestTariffedCountries[countryKey];
+      if (!data) return;
+      document.getElementById('countryGDP').value = data.gdp;
+      document.getElementById('ppiGap').value = data.ppi;
+      document.getElementById('existingTariff').value = data.tariff;
+      document.getElementById('deficitRatio').value = (data.deficit / (data.gdp * 0.001)).toFixed(3);
     }
 
-    function calculateTariff() {
-      const countryGDP = parseFloat(document.getElementById('countryGDP').value);
+    function calculateAdjustedTariff() {
+      const gdp = parseFloat(document.getElementById('countryGDP').value);
       const ppiGap = parseFloat(document.getElementById('ppiGap').value);
       const delta = parseFloat(document.getElementById('delta').value);
       const existingTariff = parseFloat(document.getElementById('existingTariff').value);
 
-      const usGDP = 65000;
-      const devGap = 1 - (countryGDP / usGDP);
+      if (isNaN(gdp) || isNaN(ppiGap) || isNaN(delta) || isNaN(existingTariff)) {
+        document.getElementById('result').textContent = 'Please enter all fields.';
+        return;
+      }
+
+      const devGap = 1 - (gdp / usGDP);
       const baseRate = (ppiGap + devGap) / 2;
       const adjusted = (baseRate * (1 - (devGap * delta))) * 100;
       const finalTariff = adjusted - existingTariff;
