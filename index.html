@@ -1,123 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tariff Calculator</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 700px;
-      margin: 40px auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-    }
-    h1 {
-      text-align: center;
-    }
-    label {
-      display: block;
-      margin-top: 12px;
-    }
-    input, select {
-      width: 100%;
-      padding: 8px;
-      margin-top: 4px;
-    }
-    button {
-      margin-top: 20px;
-      padding: 12px;
-      width: 100%;
-      font-size: 16px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    #result {
-      margin-top: 25px;
-      font-weight: bold;
-      font-size: 18px;
-      text-align: center;
-    }
-    .note {
-      font-size: 12px;
-      color: #555;
-      margin-top: 10px;
-      text-align: center;
-    }
-    #chartContainer {
-      margin-top: 30px;
-    }
-  </style>
-</head>
-<body>
-  <h1>Tariff Calculator</h1>
+function calculateTariff() {
+  const deficitRatio = parseFloat(document.getElementById('deficitRatio').value);
+  const marketAccessGap = parseFloat(document.getElementById('marketAccessGap').value);
+  const ppiGap = parseFloat(document.getElementById('ppiGap').value);
+  const existingTariff = parseFloat(document.getElementById('existingTariff').value);
+  const delta = parseFloat(document.getElementById('delta').value);
 
-  <label for="country">Select Country</label>
-  <select id="country" onchange="populateFields()">
-    <option value="">--Choose a Country--</option>
-    <option value="vietnam">Vietnam</option>
-    <option value="india">India</option>
-    <option value="mexico">Mexico</option>
-  </select>
-
-  <label for="deficitRatio">Deficit Ratio</label>
-  <input type="number" step="0.001" id="deficitRatio" placeholder="e.g. 0.904" />
-
-  <label for="marketAccessGap">Market Access Gap</label>
-  <input type="number" step="0.001" id="marketAccessGap" placeholder="e.g. 0.083" />
-
-  <label for="ppiGap">PPI Gap</label>
-  <input type="number" step="0.001" id="ppiGap" placeholder="e.g. 0.546" />
-
-  <label for="existingTariff">Existing Tariff Offset (%)</label>
-  <input type="number" step="0.1" id="existingTariff" placeholder="e.g. 9.4" />
-
-  <label for="delta">Delta (weight factor between 0 and 1)</label>
-  <input type="number" step="0.01" id="delta" value="0.25" />
-
-  <button onclick="calculateTariff()">Calculate Tariff Rate</button>
-
-  <div id="result"></div>
-  <div class="note">*Formula weights: α = 0.4, β = 0.3, γ = 0.3</div>
-
-  <div id="chartContainer">
-    <canvas id="tariffChart"></canvas>
-  </div>
-
-  <script>
-    let chart;
-
-    function populateFields() {
-      const country = document.getElementById('country').value;
-      const data = {
-        vietnam: { deficitRatio: 0.904, marketAccessGap: 0.083, ppiGap: 0.546, existingTariff: 9.4 },
-        india: { deficitRatio: 0.875, marketAccessGap: 0.071, ppiGap: 0.620, existingTariff: 17.0 },
-        mexico: { deficitRatio: 0.820, marketAccessGap: 0.090, ppiGap: 0.430, existingTariff: 7.0 }
-      };
-
-      if (data[country]) {
-        document.getElementById('deficitRatio').value = data[country].deficitRatio;
-        document.getElementById('marketAccessGap').value = data[country].marketAccessGap;
-        document.getElementById('ppiGap').value = data[country].ppiGap;
-        document.getElementById('existingTariff').value = data[country].existingTariff;
-      }
-    }
-
-    function calculateTariff() {
-      const deficitRatio = parseFloat(document.getElementById('deficitRatio').value);
-      const marketAccessGap = parseFloat(document.getElementById('marketAccessGap').value);
-      const ppiGap = parseFloat(document.getElementById('ppiGap').value);
-      const existingTariff = parseFloat(document.getElementById('existingTariff').value);
-      const delta = parseFloat(document.getElementById('delta').value);
-
-      const alpha = 0.4;
-      const beta = 0.3;
-      const gamma = 0.3;
+  const alpha = 0.4;
+  const beta = 0.3;
+  const gamma = 0.3;
 
   if ([deficitRatio, marketAccessGap, ppiGap, existingTariff, delta].some(isNaN)) {
     document.getElementById('result').textContent = "Please fill out all fields with valid numbers.";
@@ -125,47 +15,11 @@
   }
 
   // Correct formula implementation
-      const rawTariff = (deficitRatio * alpha) + (marketAccessGap * beta) + (ppiGap * gamma);
-      const devGapAdjustment = (1 - (ppiGap * delta));
-      const finalTariff = (rawTariff * devGapAdjustment * 100) - existingTariff;
+  const rawTariff = (deficitRatio * alpha) + (marketAccessGap * beta) + (ppiGap * gamma);
+  const devGapAdjustment = (1 - (ppiGap * delta));
+  const finalTariff = (rawTariff * devGapAdjustment * 100) - existingTariff;
 
   document.getElementById('result').textContent = `Calculated Tariff Rate: ${finalTariff.toFixed(2)}%`;
 
   renderChart(deficitRatio * alpha * 100, marketAccessGap * beta * 100, ppiGap * gamma * 100, existingTariff);
 }
-
-
-    function renderChart(deficit, market, ppi, offset) {
-      const ctx = document.getElementById('tariffChart').getContext('2d');
-      if (chart) chart.destroy();
-      chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: ['Deficit Contribution', 'Market Access', 'PPI Gap', 'Tariff Offset'],
-          datasets: [{
-            label: 'Tariff Components (%)',
-            data: [deficit, market, ppi, -offset],
-            backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545']
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { display: false },
-            title: {
-              display: true,
-              text: 'Tariff Composition Breakdown'
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              title: { display: true, text: 'Percentage (%)' }
-            }
-          }
-        }
-      });
-    }
-  </script>
-</body>
-</html>
