@@ -185,7 +185,7 @@
                 <h4 class="font-semibold text-gray-700 mb-2">Complete Algebraic Formula</h4>
                 <div class="bg-white p-3 rounded border border-gray-300 mb-2">
                     <p class="mb-1"><strong>Step 1:</strong> Calculate Fair Tariff (FT)</p>
-                    <p class="mb-3 pl-4">FT = 5 + (PPI × 8) + ((1 - Wage%/100) × 12) + (Trade%/100 × 40) - (log<sub>10</sub>(GDP)/5 × 1.8)</p>
+                    <p class="mb-3 pl-4">FT = 5 + (PPI × 8) + (Trade%/100 × 40) - (log<sub>10</sub>(GDP)/5 × 1.8) - (Wage%/100 × 12)</p>
                     
                     <p class="mb-1"><strong>Step 2:</strong> Calculate Adjustment</p>
                     <p class="mb-3 pl-4">Adjustment = FT - Existing Tariff</p>
@@ -205,16 +205,17 @@
                     <li><strong>δ (Delta):</strong> Market elasticity factor</li>
                     <li><strong>Deficit%:</strong> Government budget deficit as percentage of GDP</li>
                 </ul>
+                <p class="text-gray-600 italic mt-2 ml-5">Note: Lower wages decrease the tariff to support economic development in lower-income countries.</p>
             </div>
             
             <div class="mb-4">
                 <h4 class="font-semibold text-gray-700 mb-2">Example Calculation for Vietnam</h4>
                 <div class="bg-white p-3 rounded border border-gray-300">
                     <p class="mb-1">Using Vietnam's data: GDP=$4,085, PPI=0.44, Wage=10.5%, Trade=90.4%, δ=0.053, Deficit=3.8%, Existing Tariff=9.4%</p>
-                    <p class="mb-1">Fair Tariff = 5 + (0.44 × 8) + ((1 - 10.5/100) × 12) + (90.4/100 × 40) - (log<sub>10</sub>(4085)/5 × 1.8)</p>
-                    <p class="mb-1">Fair Tariff = 5 + 3.52 + 10.74 + 36.16 - 1.23 = 54.19%</p>
-                    <p class="mb-1">Adjustment = 54.19 - 9.4 = 44.79%</p>
-                    <p class="mb-1">Adjusted Tariff = 9.4 + (44.79 × 0.7) - (0.053 × 6) + (3.8/100 × 5) = 40.62%</p>
+                    <p class="mb-1">Fair Tariff = 5 + (0.44 × 8) + (90.4/100 × 40) - (log<sub>10</sub>(4085)/5 × 1.8) - (10.5/100 × 12)</p>
+                    <p class="mb-1">Fair Tariff = 5 + 3.52 + 36.16 - 1.23 - 1.26 = 42.19%</p>
+                    <p class="mb-1">Adjustment = 42.19 - 9.4 = 32.79%</p>
+                    <p class="mb-1">Adjusted Tariff = 9.4 + (32.79 × 0.7) - (0.053 × 6) + (3.8/100 × 5) = 32.25%</p>
                 </div>
             </div>
             
