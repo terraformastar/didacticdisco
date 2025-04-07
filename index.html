@@ -484,9 +484,9 @@
             const fairTariff = (
                 5 + // Base tariff level
                 ppiAdjustment + 
-                wageAdjustment + 
                 tradeAdjustment - 
-                (gdpFactor * 1.8)
+                (gdpFactor * 1.8) -
+                (wageIndex/100 * 12) // Wage factor now reduces tariff
             ).toFixed(2);
             
             // Calculate adjustment from existing to fair tariff
